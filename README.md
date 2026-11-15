@@ -13,7 +13,7 @@ Both contributors have completed their assigned component implementations:
 | Badreddine El Habra | Program Counter (PC), Memory Address Register (MAR), RAM, Instruction Register (IR), Control Matrix, Ring Counter, and 4-to-5 Decoder | Individual and combined subsystem manual tests passed, as reported by Badreddine |
 | Ihab Mahiaoui | Accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display | Accumulator storage/bus-output and basic arithmetic/B-register–ALU operation manually tested, as reported by Ihab; final output/display verification pending |
 
-The reported manual results have not been independently reproduced. Ihab supplied `Our_8Bit_Computer.circ` and a technical/testing report for documentation. His signed decimal display is an additional visualization feature beyond textbook SAP-1. This update adds his documentation; the final simulation will be added separately. Badreddine is responsible for integrating the sections; successful full integration and program execution remain unconfirmed. See the [testing record](docs/testing.md) for exact scope and missing evidence.
+The reported manual results have not been independently reproduced. Ihab supplied `Our_8Bit_Computer.circ` and a technical/testing report for documentation. His signed decimal display is an additional visualization feature beyond textbook SAP-1. This update adds his documentation; the final simulation will be added separately. successful full integration and program execution remain unconfirmed. See the [testing record](docs/testing.md) for exact scope and missing evidence.
 
 ## Tools
 
@@ -66,9 +66,9 @@ See the [milestone checklist](docs/roadmap.md). Assembler and Arduino developmen
 
 ## Contributors
 
-**Badreddine El Habra** ([BEH-77](https://github.com/BEH-77)) implemented and manually tested the PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder. He prepared the initial repository setup and documentation with Codex assistance.
+**Badreddine El Habra** ([BEH-77](https://github.com/BEH-77)) implemented and manually tested the PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder.
 
-**Ihab Mahiaoui** implemented the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display. His implementation and reported manual test scope are documented. His GitHub username remains a TODO in the [contributor record](docs/contributors.md).
+**Ihab Mahiaoui** implemented the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display. His implementation and reported manual test scope are documented.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the lightweight review workflow.
 
