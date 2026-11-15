@@ -47,7 +47,7 @@ TODO: add a table of timing state × decoded instruction → asserted controls d
 
 ## Connections and limitations
 
-The intended receivers include the PC, MAR, RAM, and IR, with further datapath interfaces to be agreed during integration with Ihab Mahiaoui. Output annotations relating to other datapath functions do not establish who implemented those components. Ihab's file and contribution details remain pending.
+The intended receivers include the PC, MAR, RAM, and IR, with further datapath interfaces to be agreed during integration with Ihab Mahiaoui. Ihab has confirmed implementing the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display; see [arithmetic](alu.md) and [registers/displays](other-components.md). His reference was supplied for documentation, but the final simulation has not been added. CU output annotations alone do not establish polarity/timing compatibility with his controls or successful integration.
 
 ## Testing status
 

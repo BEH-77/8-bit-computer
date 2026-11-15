@@ -6,21 +6,18 @@ The project explores how registers, memory, timing logic, and control signals co
 
 ## Current status
 
-Badreddine's SAP-1 components have been implemented and successfully tested both individually and together in Logisim Evolution. The complete SAP-1 computer has not yet been assembled from both contributors' simulation files, and full-system integration remains pending.
+Both contributors have completed their assigned component implementations:
 
-Badreddine's completed section includes:
+| Contributor | Completed components | Testing record |
+| --- | --- | --- |
+| Badreddine El Habra | Program Counter (PC), Memory Address Register (MAR), RAM, Instruction Register (IR), Control Matrix, Ring Counter, and 4-to-5 Decoder | Individual and combined subsystem manual tests passed, as reported by Badreddine |
+| Ihab Mahiaoui | Accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display | Accumulator storage/bus-output and basic arithmetic/B-register–ALU operation manually tested, as reported by Ihab; final output/display verification pending |
 
-- Program Counter (PC)
-- Memory Address Register (MAR)
-- Random Access Memory (RAM)
-- Instruction Register (IR)
-- Control Unit (CU): Control Matrix, Ring Counter, and 4-to-5 Decoder
-
-The successful manual simulation results were reported by Badreddine; repository preparation did not independently reproduce those tests. Detailed test evidence remains to be added. Ihab's simulation file and specific contribution details are pending. This repository does not yet contain a complete integrated SAP-1 computer.
+The reported manual results have not been independently reproduced. Ihab supplied `Our_8Bit_Computer.circ` and a technical/testing report for documentation. His signed decimal display is an additional visualization feature beyond textbook SAP-1. This update adds his documentation; the final simulation will be added separately. Badreddine is responsible for integrating the sections; successful full integration and program execution remain unconfirmed. See the [testing record](docs/testing.md) for exact scope and missing evidence.
 
 ## Tools
 
-- **Logisim Evolution:** circuit design and simulation; the supplied file identifies version **4.1.0**.
+- **Logisim Evolution:** circuit design and simulation. Badreddine's committed file identifies **4.1.0**; Ihab's documentation reference identifies **5.0.0**. Cross-version compatibility has not been tested.
 - **Git:** version control.
 - **GitHub:** repository hosting, issue tracking, and pull request review.
 
@@ -41,7 +38,7 @@ README.md / LICENSE / CONTRIBUTING.md / CHANGELOG.md
  docs/                         Architecture, components, tests, and project records
  simulations/sap-1/
    badreddine-el-habra/         PC, memory, and control simulation
-   ihab-mahiaoui/               Placeholder README; simulation pending
+   ihab-mahiaoui/               Contribution/source notes; circuit addition pending
  tests/                        Test procedure and artifact guidance
  assets/diagrams/              Reserved for circuit diagrams
  assets/screenshots/           Reserved for simulation evidence
@@ -53,15 +50,15 @@ README.md / LICENSE / CONTRIBUTING.md / CHANGELOG.md
 - [Architecture and source inspection](docs/architecture.md)
 - [Instruction set status](docs/instruction-set.md)
 - Components: [PC](docs/components/program-counter.md), [MAR](docs/components/mar.md), [RAM](docs/components/ram.md), [IR](docs/components/instruction-register.md), [CU](docs/components/control-unit.md)
-- Pending documentation: [ALU](docs/components/alu.md), [other components](docs/components/other-components.md)
+- Ihab's components: [adder/subtractor](docs/components/alu.md), [registers and displays](docs/components/other-components.md)
 - [Testing and reported results](docs/testing.md)
 - [Design decisions](docs/design-decisions.md)
 - [Roadmap](docs/roadmap.md) and [changelog](CHANGELOG.md)
 
 ## Development roadmap
 
-1. Record component behavior and test evidence for the existing simulations.
-2. Add Ihab's section, agree on interfaces, integrate, and verify the complete SAP-1 with test programs.
+1. Complete the remaining interface documentation and record test procedures/results for both contributors' completed components.
+2. Add Ihab's circuit in a separate simulation update, agree on interfaces, integrate the full control/datapath, and verify complete SAP-1 test programs.
 3. Finalize the advanced computer's architecture, instruction set, memory, and registers, then implement and verify its simulation.
 4. Develop an assembler and Arduino programming interface once the architecture is defined.
 
@@ -71,12 +68,12 @@ See the [milestone checklist](docs/roadmap.md). Assembler and Arduino developmen
 
 **Badreddine El Habra** ([BEH-77](https://github.com/BEH-77)) implemented and manually tested the PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder. He prepared the initial repository setup and documentation with Codex assistance.
 
-**Ihab Mahiaoui** is the second contributor to the SAP-1 project. He has implemented other SAP-1 components; their specific responsibilities and simulation will be documented when supplied. His GitHub username remains a TODO in the [contributor record](docs/contributors.md).
+**Ihab Mahiaoui** implemented the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display. His implementation and reported manual test scope are documented. His GitHub username remains a TODO in the [contributor record](docs/contributors.md).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the lightweight review workflow.
 
 ## References and licensing
 
-SAP-1 architectural inspiration: *Digital Computer Electronics*, Albert Paul Malvino and Jerald A. Brown. Original SAP-1 concepts are distinct from this team's Logisim Evolution implementation; see [references and attribution](docs/references.md).
+SAP-1 architectural inspiration: *Digital Computer Electronics*, Third Edition, Albert Paul Malvino and Jerald A. Brown. Original SAP-1 concepts are distinct from this team's Logisim Evolution implementation and signed-display extension; see [references and attribution](docs/references.md).
 
 Licensing is undecided. The [LICENSE](LICENSE) placeholder does not grant public reuse permissions.
