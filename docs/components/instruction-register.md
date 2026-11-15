@@ -1,31 +1,15 @@
 # Instruction Register (IR)
 
-## Purpose and SAP-1 role
+Badreddine El Habra implemented IR with two four-bit Register primitives, giving eight bits of instruction storage. In [his circuit](../../simulations/sap-1/badreddine-el-habra/sap1-pc-memory-control.circ), the pair sits below RAM. A four-bit controlled buffer provides the address-field output path, while a four-bit path leads toward the instruction decoder.
 
-Retains an instruction so that its operation and address fields can be used by the control and memory paths. Implemented by Badreddine El Habra.
+IR is intended to capture an instruction from the memory/W-Bus path and hold it while the control unit executes it. The SAP-1 model separates the byte into an opcode and an address field. The precise assignment and bit order of the two registers still need to be recorded against the decoder truth table.
 
-## Implementation and width
+| Annotation | Intended role |
+| --- | --- |
+| `Li` | Load the instruction |
+| `Ei` | Enable the address field onto the transfer path |
+| `CLK`, `CLR` | Clock and clear the stored instruction |
 
-The IR-labeled region contains Register components at `(310,980)` and `(450,980)`, each explicitly **4 bits**: eight bits of register storage across the pair. Nearby splitters are explicitly four bits, and the controlled buffer at `(550,1010)` is explicitly four bits. This is a two-register implementation rather than a single named eight-bit IR component.
+Both registers omit a trigger override and therefore use Logisim 4.1.0's rising-edge default. This does not by itself define the input clock phase or the load/enable polarities; those depend on the surrounding wiring. See the [Register definition](https://github.com/logisim-evolution/logisim-evolution/blob/v4.1.0/src/main/java/com/cburch/logisim/std/memory/Register.java).
 
-## Inputs, outputs, and controls
-
-- Architectural input: an instruction from the memory/bus transfer path.
-- Architectural outputs: an operation field for decoding and an address/operand field for transfers.
-- Nearby annotations: `Li`, `Ei`, `CLK`, and `CLR`.
-
-Architectural intent: load and retain an instruction, present an operation field to the decoder, and permit address-field transfer under control. TODO: document the actual mapping of each four-bit register to the fields, input/output bit order, `Li`/`Ei` polarity, clock edge, and clear behavior. These details are not inferred solely from text labels.
-
-## Connections
-
-The source places IR below RAM and above the CU. The four-to-five decoder region has a four-bit splitter. TODO: diagram the precise memory/bus-to-IR and IR-to-decoder/transfer connections and confirm the instruction encoding against the [instruction-set record](../instruction-set.md).
-
-## Testing status
-
-**Implemented and manually tested successfully by Badreddine El Habra**, both individually and as part of his combined subsystem in Logisim Evolution, according to his report. Codex did not independently reproduce these functional tests. Detailed evidence is pending; see [testing](../testing.md).
-
-## Known limitations and documentation TODOs
-
-Integration with Ihab Mahiaoui's section and full SAP-1 verification remain pending. These integration and documentation tasks do not change the reported successful status of this component.
-
-TODO: add an annotated diagram, reproducible input/expected-output procedure, and supporting test evidence. Confirm interface details listed above before integration.
+Badreddine reports successful individual IR and combined subsystem tests. A reproducible fetch/load/hold procedure, control polarities, and opcode mapping remain to be documented. See [instruction set](../instruction-set.md) and [testing](../testing.md).

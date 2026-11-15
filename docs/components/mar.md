@@ -1,31 +1,11 @@
 # Memory Address Register (MAR)
 
-## Purpose and SAP-1 role
+Badreddine El Habra implemented MAR as one explicitly four-bit Register labeled `MAR`. It holds the address while memory is accessed, allowing the W-Bus to carry another value.
 
-Holds the address used to access RAM. Implemented by Badreddine El Habra.
+In [Badreddine's circuit](../../simulations/sap-1/badreddine-el-habra/sap1-pc-memory-control.circ), MAR is below the PC. The neighboring four-bit multiplexer selects an address path for RAM; a four-switch bank provides a manual address source. The area is labeled `Lm`, `CLK`, `CLR`, and `Run/Program`.
 
-## Implementation and width
+The intended run-mode transfer is W-Bus → MAR → RAM address. MAR's width matches RAM's four address bits. The Register has no serialized trigger override, so Logisim 4.1.0 supplies its rising-edge default. See the [versioned Register definition](https://github.com/logisim-evolution/logisim-evolution/blob/v4.1.0/src/main/java/com/cburch/logisim/std/memory/Register.java).
 
-The Register at `(390,470)` is labeled `MAR` and explicitly configured to **4 bits**. A nearby multiplexer at `(550,550)` is explicitly 4 bits, with a four-switch bank in the same memory-address region. The original heading spells “Memory Adress Register”; the source is preserved.
+The load request's polarity, reset sequence, and `Run/Program` switch positions still need a reproducible procedure. In particular, the primitive's clock default does not establish the phase relationship of the surrounding clock/control wiring.
 
-## Inputs, outputs, and controls
-
-- Address input: four-bit address value to be retained.
-- Address output: stored four-bit value for memory addressing.
-- Nearby annotations: `Lm`, `CLK`, and `CLR`.
-
-Architectural intent: latch an address under load control and retain it between transfers. TODO: record the actual input path, `Lm` polarity, active clock edge, and reset behavior from wiring/test evidence.
-
-## Connections and operation
-
-SAP-1 uses MAR between the address transfer path and RAM. The surrounding circuit also includes address selection and a `Run/Program` annotation. TODO: trace the multiplexer selection and distinguish run-mode addressing from manual programming before publishing operating instructions. RAM's explicit address width is also four bits.
-
-## Testing status
-
-**Implemented and manually tested successfully by Badreddine El Habra**, both individually and as part of his combined subsystem in Logisim Evolution, according to his report. Codex did not independently reproduce these functional tests. Detailed evidence is pending; see [testing](../testing.md).
-
-## Known limitations and documentation TODOs
-
-Integration with Ihab Mahiaoui's section and full SAP-1 verification remain pending. These integration and documentation tasks do not change the reported successful status of this component.
-
-TODO: add an annotated diagram, reproducible input/expected-output procedure, and supporting test evidence. Confirm interface details listed above before integration.
+Badreddine reports successful individual MAR tests and combined subsystem tests. A recorded load/hold sequence and an address-selection check remain to be added to [testing](../testing.md).

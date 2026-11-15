@@ -1,29 +1,17 @@
-# Random Access Memory (RAM)
+# RAM
 
-## Purpose and SAP-1 role
+Badreddine El Habra implemented the memory section using one Logisim RAM component. It provides 16 eight-bit locations for instructions and data.
 
-Stores values used as instructions and data for the SAP-1 datapath. Implemented by Badreddine El Habra.
+Both circuit files explicitly set `addrWidth=4` and omit the data-width attribute. The matching [4.1.0 RAM defaults](https://github.com/logisim-evolution/logisim-evolution/blob/v4.1.0/src/main/java/com/cburch/logisim/std/memory/RamAttributes.java) and [5.0.0 RAM defaults](https://github.com/logisim-evolution/logisim-evolution/blob/v5.0.0/src/main/java/com/cburch/logisim/std/memory/RamAttributes.java) set data width to eight bits. Nearby eight-bit splitters and the memory output buffer agree with that geometry.
 
-## Implementation and width
+## Address and data paths
 
-One Logisim RAM component is present at `(380,640)`, with explicit `addrWidth=4`: **16 addressable locations**. Its data width is not explicitly serialized in this file. Nearby splitters have explicit width 8 and a controlled buffer at `(660,730)` has width 8, supporting an eight-bit transfer path. TODO: inspect the effective RAM Data Bits setting in Logisim before documenting the complete memory geometry as confirmed.
+MAR and a manual four-switch address source feed the address-selection area. An eight-bit switch bank supplies programming data. A controlled eight-bit output path connects memory data toward the W-Bus and instruction register. The visible annotations include `Run/Program`, `CE`, and `CLK`.
 
-## Inputs, outputs, and controls
+The RAM configuration differs between files: Badreddine's current RAM explicitly uses `trigger="high"` (high-level triggering), while Ihab's file omits that attribute and uses the 5.0.0 rising-edge default. Do not apply one memory-loading sequence to both files without checking their effective settings.
 
-The memory region contains address selection, switches, a controlled output path, and annotations `Run/Program`, `CLK`, and `CE` (appearing twice). These annotations are observed text, not a verified port specification.
+## Testing and remaining work
 
-Architectural intent: accept an address and supply the selected stored value; manual programming controls support loading memory contents. TODO: document address/data pin mapping, read/write controls, mode selection, `CE` polarity, clock behavior, and data persistence. Do not infer effective settings from omitted XML attributes.
+Badreddine reports successful individual RAM tests and combined memory/control tests. No memory image or complete load/readback procedure is included. Record the mode-switch positions, address/data bit order, write controls, `CE` polarity, and expected readback before using this section as a programming guide. Startup contents and persistence between simulation sessions have not been documented.
 
-## Connections and operation
-
-MAR and the adjacent address multiplexer occupy the address path region; the IR and `W Bus` are part of the surrounding transfer path. TODO: add a wiring diagram showing the actual address, programming-data, and memory-output routes. No reproducible program image or memory-loading procedure is supplied as test evidence.
-
-## Testing status
-
-**Implemented and manually tested successfully by Badreddine El Habra**, both individually and as part of his combined subsystem in Logisim Evolution, according to his report. Codex did not independently reproduce these functional tests. Detailed evidence is pending; see [testing](../testing.md).
-
-## Known limitations and documentation TODOs
-
-Integration with Ihab Mahiaoui's section and full SAP-1 verification remain pending. These integration and documentation tasks do not change the reported successful status of this component.
-
-TODO: add an annotated diagram, reproducible input/expected-output procedure, and supporting test evidence. Confirm interface details listed above before integration.
+See [testing](../testing.md) for the distinction between these reported results and pending program execution.

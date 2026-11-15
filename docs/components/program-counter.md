@@ -1,31 +1,15 @@
 # Program Counter (PC)
 
-## Purpose and SAP-1 role
+Badreddine El Habra implemented the PC to hold the next instruction address. Its four-bit output is intended to reach MAR through the low four bits of the W-Bus during fetch.
 
-Retains the instruction address and supplies it for memory addressing during instruction fetch. Implemented by Badreddine El Habra.
+In [Badreddine's circuit](../../simulations/sap-1/badreddine-el-habra/sap1-pc-memory-control.circ), the PC uses four J-K flip-flops near the top left of `main`, with gates for counting and controlled buffers for bus output. It is built from primitives rather than Logisim's Counter component. Nearby controls are labeled `Cp`, `Ep`, and `CLR`.
 
-## Implementation and width
+| Control | Intended role |
+| --- | --- |
+| `Cp` | Advance the instruction address |
+| `Ep` | Enable the address output onto the bus |
+| `CLR` | Clear the counter for startup |
 
-The PC-labeled region of `main` contains four J-K flip-flops at `(320,250)`, `(420,250)`, `(520,250)`, and `(620,250)`, with associated gates and controlled buffers. This provides four state bits; a nearby splitter explicitly has width 4. The PC is built from primitives rather than a named Counter component.
+The surrounding circuit includes automatic/manual clock selection, single-step control, and halt logic. The effective PC clock edge, reset sequence, control polarities, and wrap from address 15 to 0 still need a recorded operating procedure; the labels alone do not define those details.
 
-## Inputs, outputs, and controls
-
-- Clock and clear/start wiring are present in the surrounding canvas.
-- Local control annotations are `Cp`, `Ep`, and `CLR`.
-- The four-bit address output is associated with controlled buffers toward the region labeled `W Bus`.
-
-Architectural intent: advance the instruction address, clear it for startup, and place the address on the transfer path when enabled. TODO: trace exact `Cp`/`Ep` semantics and polarity, active clock edge, reset value, bit order, and wrap behavior from the wiring and test procedure; annotation names alone do not specify them.
-
-## Connections
-
-In SAP-1, the PC address is transferred to MAR through the shared bus. The current canvas contains PC, MAR, and the bus region; TODO: add a net-level diagram of that transfer and the CU control connections for integration.
-
-## Testing status
-
-**Implemented and manually tested successfully by Badreddine El Habra**, both individually and as part of his combined subsystem in Logisim Evolution, according to his report. Codex did not independently reproduce these functional tests. Detailed evidence is pending; see [testing](../testing.md).
-
-## Known limitations and documentation TODOs
-
-Integration with Ihab Mahiaoui's section and full SAP-1 verification remain pending. These integration and documentation tasks do not change the reported successful status of this component.
-
-TODO: add an annotated diagram, reproducible input/expected-output procedure, and supporting test evidence. Confirm interface details listed above before integration.
+Badreddine reports successful individual PC tests and tests with his memory/control subsystem. Exact inputs and observed counts are not recorded. See [testing](../testing.md) for the evidence still needed.
