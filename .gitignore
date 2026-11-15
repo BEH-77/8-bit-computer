@@ -1,0 +1,16 @@
+# Logisim backup/autosave files; keep circuit sources tracked.
+*.circ.bak
+*.circ.bak.*
+*.circ.autosave
+*.circ~
+
+# Editor and operating-system temporary files.
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local scratch and generated logs.
+*.log
+/tmp/
