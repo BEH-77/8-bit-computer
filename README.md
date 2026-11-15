@@ -66,7 +66,7 @@ See the [milestone checklist](docs/roadmap.md). Assembler and Arduino developmen
 
 ## Contributors
 
-**Badreddine El Habra** ([BEH-77](https://github.com/BEH-77)) implemented and manually tested the PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder.
+**Badreddine El Habra** ([BEH-77](https://github.com/BEH-77)) implemented and manually tested the PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder.His implementation and reported manual test scope are documented.
 
 **Ihab Mahiaoui** implemented the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display. His implementation and reported manual test scope are documented.
 
