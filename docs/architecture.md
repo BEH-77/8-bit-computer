@@ -1,65 +1,49 @@
 # Architecture
 
-## Scope and status
+The design follows SAP-1: an eight-bit shared transfer bus, four-bit memory addresses, separate instruction and operand storage, and a gate-based control unit. Ihab's signed decimal display extends the output presentation without adding CPU instructions.
 
-The current design is inspired by SAP-1 from *Digital Computer Electronics*, Third Edition. Badreddine El Habra's PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder are implemented and manually tested successfully, both individually and together, according to his report. Ihab Mahiaoui confirms completing the accumulator A, B register, adder/subtractor, output register, binary display, and signed decimal display. He reports successful accumulator storage/bus-output and basic arithmetic/B-register–ALU manual tests. His reference circuit was supplied for documentation inspection; adding the final simulation to Git is a later step. Full integration, final output/display verification, and complete SAP-1 execution remain pending confirmation.
+## Circuit organization
 
-The conceptual SAP-1 flow is: PC supplies an instruction address, MAR holds a memory address, RAM supplies instruction/data values, IR retains an instruction, and control logic coordinates transfers using instruction decoding and timing states. This describes architectural roles; the complete connection map and timing contract still need documentation from the simulation before integration.
+Both files contain a single `main` circuit and use built-in Logisim libraries. Component names in this documentation refer to regions on those canvases.
 
-## Source inspection
-
-### Badreddine's committed section
-
-Inspected source: [Badreddine's simulation](../simulations/sap-1/badreddine-el-habra/sap1-pc-memory-control.circ), imported unchanged from the supplied `SAP_1.circ`.
-
-- XML project `source="4.1.0"`, format `version="1.0"`; the file explicitly identifies Logisim Evolution v4.1.0.
-- Exactly one circuit, `main`. The components are regions of that canvas, not separately named subcircuits.
-- Built-in libraries are referenced; no external circuit-library file references were found.
-- Present primitives: 13 J-K flip-flops, three explicitly 4-bit registers, one RAM with explicit 4-bit address width, one 4-bit multiplexer, six controlled buffers, 13 splitters, 26 AND gates, seven OR gates, ten NOT gates, one clock, switches, buttons, and LED displays.
-- PC region: four J-K flip-flops. MAR: register labeled `MAR`, explicitly width 4. IR region: two registers, each explicitly width 4.
-- RAM data width is not explicitly serialized. Adjacent 8-bit splitters and an 8-bit buffer support an 8-bit data path; confirm the RAM's effective Data Bits setting in Logisim before publishing a definitive memory specification.
-- CU region includes a six-way timing splitter/display, a labeled Ring Counter, a four-input/five-output gate decoder, and a subsequent AND/OR matrix with control labels.
-- Source labels include `W Bus`, `Cp`, `Ep`, `Lm`, `CE`, `Li`, `Ei`, `CLR`, `CLK`, `Lo`, `Lb`, `Eu`, `Su`, `Ea`, `La`, and decoder labels `LDA`, `ADD`, `SUB`, `OUT`, `HLT`. Text annotations alone do not establish pin direction, polarity, or electrical connectivity.
-
-### Ihab's documentation reference
-
-Inspected reference: `Our_8Bit_Computer.circ`, supplied by Ihab outside the repository. Its checksum and submission status are recorded in [Ihab's source notes](../simulations/sap-1/ihab-mahiaoui/README.md); no link to an uncommitted circuit is presented as an available repository file.
-
-- XML `source="5.0.0"`, format `version="1.0"`; exactly one `main` circuit, with 165 components and 731 wire records. Only built-in libraries are referenced.
-- A, B, and OUT each use two explicitly four-bit registers: `A_LOW`/`A_HIGH`, `B_LOW`/`B_HIGH`, and `OUT_LOW`/`OUT_HIGH`.
-- The arithmetic path contains two explicitly four-bit Adders, a carry-chain connection, eight XOR gates for conditional B inversion, and eight controlled result buffers. A has its own bank of eight controlled buffers.
-- Labeled pins are `LA_N`, `LB_N`, `LO_N`, `CLK`, `EA`, `EU`, and `SU`. Wire tracing establishes load-request inversion and a common clock for A/B/OUT; it does not establish synchronization with the PC/memory section.
-- Output circuitry includes eight binary LEDs, sign/absolute-value logic, two divide-by-10 stages, three digit displays, and a sign display. See [registers and displays](components/other-components.md) for verified structure and remaining routing checks.
-- PC/MAR/RAM/IR regions are also present. Ihab's confirmed contribution is the six-component datapath/display list above; these additional regions do not change Badreddine's attribution.
-- No ring-counter, instruction-decoder, or control-matrix region was found in this reference. Partial datapath/memory wiring does not establish a complete control-driven SAP-1 or successful instruction execution.
-
-This update combines Ihab's technical/test report with static XML/wire inspection and version-matched primitive definitions where noted on the component pages. No Logisim functional execution was performed during documentation preparation. The signed decimal display is an additional visualization feature; it interprets OUT as two's complement without changing the stored byte, arithmetic, or textbook instruction set.
-
-## Architectural relationships and integration
-
-| Relationship | Architectural role | Current boundary |
+| File | Saved version | Contents |
 | --- | --- | --- |
-| PC → MAR → RAM → IR | Address and fetch an instruction | Badreddine's reported tested subsystem; exact interface contract still needs documentation |
-| W-Bus → A and B → adder/subtractor | Load operands and compute an eight-bit result | Ihab documents low bits 0–3/high bits 4–7 and reports basic operation; complete transfer coverage remains to be recorded |
-| A or arithmetic result → transfer bus | Select the value available for register transfers | `EA` and `EU` buffer banks are present; shared-bus ownership must be verified |
-| W-Bus → OUT → binary/decimal displays | Capture and present a retained output value | Ihab's output storage and displays are implemented; final evidence and comprehensive signed-display verification remain pending |
-| Decoder/timing/control matrix → datapath controls | Sequence fetch, arithmetic, and output operations | Complete cross-section control wiring and timing are pending |
+| [Badreddine's circuit](../simulations/sap-1/badreddine-el-habra/sap1-pc-memory-control.circ) | 4.1.0 | PC, MAR, RAM, IR, clock logic, ring counter, decoder, control matrix, plus Ihab's datapath and displays |
+| [Ihab's circuit](../simulations/sap-1/ihab-mahiaoui/Our_8Bit_Computer.circ) | 5.0.0 | A, B, ALU, OUT, binary/signed displays, and PC/MAR/RAM/IR regions; no ring counter, instruction decoder, or control matrix |
 
-These relationships describe the intended SAP-1 organization, not a verified complete connection diagram. Badreddine's `La`, `Ea`, `Lb`, `Su`, `Eu`, and `Lo` annotations are candidate counterparts to Ihab's `LA_N`, `EA`, `LB_N`, `SU`, `EU`, and `LO_N`. Confirm active levels and receiving inversions before connecting them. A/B/OUT currently have grounded clear inputs; a shared reset/start strategy must be agreed.
+Badreddine's current file has 254 component records and 1,117 wire records; Ihab's has 165 and 731. These are structural observations, not test results. The files overlap but contain distinct work, so both are retained. Directory names identify their development context rather than exclusive authorship of everything on the canvas.
 
-Ihab reports handing his section to Badreddine for integration. The final combined file will be supplied separately. Manual controls in the reference must not be described as a finished automatic control interface. Ihab's arithmetic wraps modulo 256, leaves the final carry unused, and has no dedicated carry/overflow-status register; see [design decisions](design-decisions.md).
+## Datapath
 
-## Discrepancies and limits
+| Component | Storage or width | Role |
+| --- | --- | --- |
+| Program Counter | Four J-K flip-flops | Supplies the next instruction address |
+| MAR | One four-bit register | Holds the memory address |
+| RAM | 16 × 8 bits | Stores instructions and data |
+| IR | Two four-bit registers | Holds the instruction's operation and address fields |
+| Accumulator A | Two four-bit registers | Holds the first operand or arithmetic result; can drive the W-Bus |
+| B register | Two four-bit registers | Holds the second arithmetic operand |
+| Adder/subtractor | Two four-bit adders with XOR conditioning | Computes an eight-bit sum or difference; can drive the W-Bus |
+| OUT | Two four-bit registers | Holds the value shown by the binary and signed decimal displays |
 
-- The requested input name was `SAP_1(1).circ`; the supplied circuit was named `SAP_1.circ`. It was copied without changes to the organized simulation path; the redundant root copy was then removed after a byte comparison.
-- The lower gate-matrix region is headed `4 to 5 decoder`, duplicating the decoder heading above it. Its gates and output labels are consistent with the reported Control Matrix region; the heading was preserved. TODO: confirm the intended heading with Badreddine before any circuit edit.
-- The original MAR annotation spells “Adress”; documentation uses “Address”. The original annotation is unchanged.
-- The canvas title `8 Bit Computer` does not imply a complete integrated computer.
+The RAM address width is explicit in both files. Its eight-bit data width comes from the matching Logisim defaults; see [RAM](components/ram.md). A, B, and OUT use active-low load requests and a shared datapath clock. A and the ALU have separately enabled bus drivers; B and OUT do not drive the bus.
 
-XML inspection establishes structure, not functional correctness. Codex did not independently reproduce the reported tests. During the initial repository preparation, Logisim Evolution startup failed because that environment could not connect to the X11 display; GUI opening was not verified. That historical limitation is separate from this documentation update's static inspection of Ihab's file.
+The intended instruction flow is PC → MAR → RAM → IR for fetch. Memory operands then travel through the W-Bus into A or B. The ALU uses A and B continuously, and its result can return through the bus to A. `OUT` transfers A to the output register. This describes the intended sequencing; complete instruction execution has not been demonstrated.
 
-## Pending interfaces
+## Control integration
 
-TODO: add an annotated datapath diagram, finish tracing bus bit ordering, confirm the control-matrix output polarities and timing against Ihab's receiving signals, document shared reset/start behavior, and agree on a compatible Logisim version (the two source files identify 4.1.0 and 5.0.0). These are documentation and integration tasks, not claims that either contributor's completed component implementation is unfinished.
+The ring counter supplies a six-line timing interface. The instruction decoder has five labeled outputs: `LDA`, `ADD`, `SUB`, `OUT`, and `HLT`. The control matrix combines timing and instruction selection to generate transfer controls.
 
-The advanced computer architecture is undecided. Its instruction encoding, register set, memory sizes, datapath, and control approach must be agreed before implementation; see the [roadmap](roadmap.md).
+The current assembled canvas is not yet an automatically controlled CPU:
+
+- Datapath inputs `LA_N`, `LB_N`, `LO_N`, `EA`, `EU`, and `SU` remain manual pins. Wire inspection finds no connection from the corresponding matrix outputs to these pins.
+- A, B, and OUT share the datapath `CLK` pin, separate from the PC/control clock network. Their clear inputs are grounded in both files.
+- Matrix labels `La`, `Lb`, `Lo`, `Ea`, `Eu`, and `Su` suggest the corresponding functions, but load polarity and timing must be reconciled before wiring the interfaces.
+
+Badreddine is responsible for integration following Ihab's reported handoff. The next work is to connect the control interfaces, agree on clock/reset behavior, check bus ownership, and run complete programs. Existing subsystem reports are preserved in [testing](testing.md); they do not establish a pass for this assembled version.
+
+## Source details to keep in mind
+
+The control matrix is mistakenly headed `4 to 5 decoder`, duplicating the actual decoder's heading. The MAR heading spells “Adress”. These annotations are unchanged in the circuits; the documentation uses the intended component names.
+
+The ALU wraps at eight bits and has no carry/overflow flag register. The signed display interprets OUT as two's complement, from -128 to +127. Its divide-by-10 components are display conversion logic, not a division instruction.

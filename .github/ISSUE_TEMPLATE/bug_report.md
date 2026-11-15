@@ -6,14 +6,14 @@ labels: ''
 assignees: ''
 ---
 
-## Affected file or component
+## Affected file
 
-Provide the circuit path, component region, and Logisim Evolution version, or the documentation path.
+Give the circuit or documentation path. For simulations, include the Logisim Evolution version and component region.
+
+## Expected and observed behavior
+
+Describe what should happen and what happened instead.
 
 ## Reproduction
 
-Describe the initial state, inputs, and steps. Include the expected and observed behavior.
-
-## Evidence
-
-Attach relevant screenshots or test artifacts if available. State whether this affects Badreddine's subsystem or a future integrated circuit.
+List the initial state, inputs, and clock/control steps. Attach screenshots or traces if available.

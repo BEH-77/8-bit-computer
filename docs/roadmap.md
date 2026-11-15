@@ -1,46 +1,23 @@
 # Roadmap
 
-Checked items reflect completed work within the stated scope, including each contributor's explicitly reported manual tests. Completed component implementation, documentation, and full-system verification are separate milestones. No historical dates are inferred.
+## Completed component work
 
-## Phase 1 — SAP-1 Component Development
+- Badreddine's PC, MAR, RAM, IR, ring counter, decoder, and control matrix are implemented. He reports successful individual and combined subsystem tests.
+- Ihab's A/B/OUT registers, ALU, binary LEDs, and signed decimal display are implemented. He reports successful accumulator and basic arithmetic/B-register–ALU tests.
+- Both circuit files are available, with both sections present on Badreddine's current canvas.
 
-- [x] Individual circuit implementations: Badreddine's PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder.
-- [x] Initial simulations: Badreddine reports successful individual and combined subsystem tests in Logisim Evolution.
-- [x] Initial documentation of the supplied section and project status.
-- [x] Ihab's component implementations: accumulator A, B register, adder/subtractor, output register, binary LEDs, and signed decimal display extension.
-- [x] Ihab's reported manual accumulator storage/bus-output test and basic arithmetic/B-register–ALU operation.
-- [x] Document Ihab's confirmed responsibilities, technical design, reported test scope, and inspected reference-file provenance.
-- [ ] Add detailed test evidence and diagrams.
-- [ ] Complete reproducible register/ALU test records and confirm standalone B-register coverage.
-- [ ] Confirm final output-register and binary-display test results.
-- [ ] Verify the signed decimal display across positive, negative, zero, and boundary cases.
-- [ ] Record combined verification of Ihab's full six-component section.
+## Current work: integration and verification
 
-## Phase 2 — SAP-1 Integration
+- [ ] Connect the control matrix to the datapath and resolve signal polarity, clocking, reset, and bus ownership.
+- [ ] Choose and test a Logisim version for the combined circuit; reconcile RAM trigger settings.
+- [ ] Record the opcode truth table, control timing, and memory-loading procedure.
+- [ ] Add reproducible component/subsystem results and confirm standalone B-register and final output/display behavior.
+- [ ] Run complete instructions and test programs with expected and observed results.
 
-- [x] Hand off Ihab's section to Badreddine for integration, as reported by Ihab; this is a handoff milestone, not successful integration.
-- [ ] Add the final simulation file in a separately authorized simulation update.
-- [ ] Complete and confirm integration of both sections, led by Badreddine.
-- [ ] Resolve interface and signal compatibility problems.
-- [ ] Agree on shared clock/reset behavior and verify compatibility between the source files' Logisim versions.
-- [ ] Verify complete SAP-1 behavior.
-- [ ] Execute test programs.
-- [ ] Document results.
+Badreddine leads integration following Ihab's reported handoff. Having both sections on one canvas is progress toward integration, not a complete-system test result. Detailed checks are listed in [testing](testing.md).
 
-## Phase 3 — Advanced Computer Architecture
+## Future work
 
-- [ ] Finalize architecture.
-- [ ] Define instruction set.
-- [ ] Define memory and register specifications.
-- [ ] Design datapath and control unit.
-- [ ] Implement simulation.
-- [ ] Test and verify system.
+After SAP-1 verification, define a more advanced eight-bit architecture: instruction set, registers, memory, datapath, and control. Implement and test that design before developing an assembler or Arduino programming interface. These remain planned work, with no fixed specifications or schedule.
 
-## Phase 4 — Programming and Hardware Interface
-
-- [ ] Develop assembler.
-- [ ] Design Arduino programming interface.
-- [ ] Implement memory programming.
-- [ ] Verify complete program execution.
-
-The future architecture and specifications are undecided. Later phases describe intended work, not existing capabilities or a fixed schedule.
+The contributors also need to agree on a project license.

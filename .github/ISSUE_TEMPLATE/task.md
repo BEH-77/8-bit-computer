@@ -1,19 +1,15 @@
 ---
 name: Project task
-about: Propose a focused documentation, integration, or design task
+about: Propose a circuit, test, or documentation change
 title: ''
 labels: ''
 assignees: ''
 ---
 
-## Goal and scope
+## Proposed change
 
-Describe the desired result and affected files or interfaces.
+Describe the result and affected files or interfaces.
 
-## Completion criteria
+## Completion check
 
-List observable criteria and relevant verification. For future architecture work, distinguish proposals from agreed specifications.
-
-## Coordination
-
-Identify contributors, dependencies, and any attribution or interface details to confirm.
+State how the change will be checked and any dependencies on the other contributor's work.

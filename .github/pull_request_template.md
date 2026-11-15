@@ -1,12 +1,7 @@
 ## Change
 
-Describe the problem, resulting behavior, and contributors. Link an issue if applicable.
+Describe the problem and resulting change. Link an issue if applicable.
 
-## Verification
+## Validation
 
-Describe checks performed, Logisim Evolution version, observed results, and evidence. Clearly identify tests not run or results reported by someone else.
-
-- [ ] Circuit changes verified with relevant simulations, or not applicable with a reason.
-- [ ] Documentation and `Unreleased` changelog updated as needed.
-- [ ] Attribution and integration status are accurate.
-- [ ] Circuit diff reviewed for unintended changes and temporary files.
+List checks performed and results. For circuit changes, include the Logisim version and tested scope. State any checks still pending.

@@ -1,22 +1,22 @@
 # SAP-1 simulations
 
-Badreddine El Habra and Ihab Mahiaoui developed separate Logisim Evolution sections. Badreddine reports that his components passed individual and combined subsystem manual tests. Ihab reports successful accumulator storage/bus-output and basic arithmetic/B-register–ALU tests, with final output/display verification still pending. He reports handing his section to Badreddine for integration; successful full integration and complete SAP-1 execution remain unconfirmed.
+| Circuit | Saved version | What to inspect |
+| --- | --- | --- |
+| [sap1-pc-memory-control.circ](badreddine-el-habra/sap1-pc-memory-control.circ) | Logisim Evolution 4.1.0 | PC/memory at upper left, timing/decoder/matrix below, A/B/ALU/OUT to the right, displays below the datapath |
+| [Our_8Bit_Computer.circ](ihab-mahiaoui/Our_8Bit_Computer.circ) | Logisim Evolution 5.0.0 | Ihab's registers, arithmetic, and displays alongside PC/memory regions; no instruction-control section |
 
-- [Badreddine's simulation](badreddine-el-habra/sap1-pc-memory-control.circ): PC, MAR, RAM, IR, Control Matrix, Ring Counter, and 4-to-5 Decoder on a single `main` canvas.
-- [Ihab's contribution and reference notes](ihab-mahiaoui/README.md): accumulator A, B register, adder/subtractor, output register, binary LEDs, and signed decimal display are documented; the final circuit addition is deferred to the simulation phase.
+Open either file with **File → Open**, select `main`, and zoom out to find the labels. Each has one large canvas and built-in libraries only. The source version identifies the version saved in the XML, not a cross-version compatibility guarantee.
 
-## Opening and provenance
+## Operating limits
 
-Open Badreddine's committed `.circ` file through File → Open in Logisim Evolution, preferably 4.1.0, the version identified in its XML. Use the `main` circuit and scroll to the component regions. Controls include annotations for `Clear/Start`, `manual/auto`, and `single step`; TODO: document a precise manual test procedure before treating these labels as an operating guide. Ihab's separately supplied documentation reference identifies 5.0.0; compatibility between the versions has not been tested.
+Badreddine's current file contains both contributors' sections, but the right-hand datapath still uses manual `LA_N`, `LB_N`, `LO_N`, `EA`, `EU`, `SU`, and `CLK` inputs. The clock/start area also has `Clear/Start`, `manual/auto`, and `single step` controls. A complete startup, programming, and execution procedure has not yet been recorded.
 
-The supplied source was named `SAP_1.circ`. It was compared byte for byte with the organized copy before the redundant root file was removed. The retained circuit is unchanged: 44,851 bytes with SHA-256:
+RAM triggering differs: Badreddine's file explicitly uses high-level triggering; Ihab's uses the default rising edge. Inspect the effective settings before attempting the same memory-loading sequence in both files.
 
-```text
-9b6d15d2ae4f78b0b37e1a8fb19cd7821abec97d35e2370b1d0f37ce3b90dfef
-```
+For implementation details, read [architecture](../../docs/architecture.md). For reported manual results and checks still needed, read [testing](../../docs/testing.md). Neither file is documented as a verified automatically executing CPU.
 
-Make reviewed future changes in the organized simulation path. This checksum records the initial import, not a requirement that future development remain unchanged.
+## File history
 
-XML parsing and byte comparison were performed during initial repository preparation. In that environment, Logisim Evolution was installed, but GUI startup failed because it could not connect to X11. Codex did not independently verify opening or reproduce the manual functional tests. The later Ihab documentation update used static inspection and his attributed manual test report; it did not execute either simulation or modify a circuit.
+Badreddine's initial repository import came from `SAP_1.circ`; the byte-identical root copy was removed at that time. The current file has since changed and now includes the datapath/display regions, so the original import checksum no longer describes it.
 
-See [architecture inspection](../../docs/architecture.md), [control unit](../../docs/components/control-unit.md), and [testing](../../docs/testing.md) for observations, reported results, and evidence TODOs.
+Ihab's [source notes](ihab-mahiaoui/README.md) describe his retained development file. Both current circuits were preserved byte for byte during the documentation review; Git records their versions.
